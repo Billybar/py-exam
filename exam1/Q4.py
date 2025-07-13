@@ -30,28 +30,34 @@ class Date:
 
     def __eq__(self,other):
         if not isinstance(other, Date):
-            return False
+            return NotImplemented
         if other.get_day == self.get_day and other.get_month == self.get_month and other.get_year == self.get_year:
             return True
-        return None
+        else:
+            return False
 
 
 class Order:
     _order_num = 1
 
-    def __init__(self, t, d, cost=50):
-        if not isinstance(t,Time):
-            raise TypeError("t must be an instance of Time class")
-        if not isinstance(d,Date):
-            raise TypeError("d must be an instance of Date class")
+    def __init__(self, day, month, year, hour, minute, cost=50):
+        # Create Date and Time objects internally
+        self._d = Date(day, month, year)
+        self._t = Time(hour, minute)
 
-        self._t = t
-        self._d = d
         self._cost = cost
 
         self._order_id = Order._order_num
         Order._order_num += 1
 
+    def get_cost(self):
+        return self._cost
+    def order_id(self):
+        return self._order_id
+    def get_d(self):
+        return self._d
+    def get_t(self):
+        return self._t
 
     def __gt__(self,other):
         if not isinstance(other,Order):
@@ -70,10 +76,44 @@ class Order:
 
 
 class OnlineOrder(Order):
-    def __init__(self, t, d, cost, username):
-        try:
-            super().__init__(t,d,cost)
-        except TypeError as e:
-            raise e
-
+    def __init__(self, day, month, year, hour, minute, cost, username):
+        super().__init__(day, month, year, hour, minute, cost)
         self._username = username
+
+
+class CashRegister:
+    def __init__(self):
+        self._orders = []
+
+    def monthly_total_income(self, month):
+        total = 0
+        for order in self._orders:
+            if order.get_month() == month:
+                total =+ order.get_cost()
+
+        return total
+
+    def most_expensive_order(self,date):
+        most_expensive = 0
+        for order in self._orders:
+            if not order.get_d().eq(date):
+                continue
+            else:
+                if most_expensive < order.get_cost():
+                    most_expensive = order.get_cost()
+
+        if most_expensive == 0:
+            return None
+        return most_expensive
+
+    def less_than(self,cost):
+        less_than = []
+        for order in self._orders:
+            if order.get_cost() < cost:
+                less_than.append(order)
+
+        if not less_than:
+            return None
+        return less_than
+
+
