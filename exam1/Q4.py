@@ -61,7 +61,7 @@ class Order:
 
     def __gt__(self,other):
         if not isinstance(other,Order):
-            raise TypeError("other must be an instance of Order class")
+            raise TypeError("other must be an instance of Order clas")
         if self._cost > other._cost:
             return True
         else:
