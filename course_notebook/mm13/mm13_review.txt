@@ -1,0 +1,53 @@
+This is a feedback file for mmn13
+File: mmn13.py
+
+============================================================
+Checking 7 functions...
+  ------------------------------
+  Checking Q1, function complement(lst)...
+    Structure: OK.
+    Running 'test_mmn13_complement()'...
+      Asserts: OK.
+  ------------------------------
+  Checking Q2a, function shift_k_right(lst,k)...
+    Structure: OK.
+    Running 'test_mmn13_shift_k_right()'...
+      Asserts: OK.
+  ------------------------------
+  Checking Q2b, function shift_right_size(a,b)...
+    Structure: OK.
+    Running 'test_mmn13_shift_right_size()'...
+      Asserts: OK.
+  ------------------------------
+  Checking Q3, function is_perfect(lst)...
+    WARNING. Function 'is_perfect' does not have a proper docstring.
+    Structure: OK.
+    Running 'test_mmn13_is_perfect()'...
+      ERROR. Expected False, but got True, for is_perfect([1, 1],)
+      Asserts: ERROR.
+  ------------------------------
+  Checking Q4a, function identity_matrix(mat)...
+    Structure: OK.
+    Running 'test_mmn13_identity_matrix()'...
+      ERROR. Expected False, but got True, for identity_matrix([[0, 0], [0, 1]],)
+      ERROR. Expected False, but got True, for identity_matrix([[1, 0], [0, 0]],)
+      Asserts: ERROR.
+  ------------------------------
+  Checking Q4b, function create_sub_matrix(mat,size)...
+    Structure: OK.
+    Running 'test_mmn13_create_sub_matrix()'...
+      Asserts: OK.
+  ------------------------------
+  Checking Q4c, function max_identity_matrix(mat)...
+    Structure: OK.
+    Running 'test_mmn13_max_identity_matrix()'...
+      Expecting "Not all values are int"
+      Expecting "Not all rows are equal"
+      Asserts: OK.
+============================================================
+Summary
+  Checked function name and parameters: 7 functions
+    Missing/malformed: OK 0
+  Functions well-formed and covered by tests (asserts etc.): 7 (of 7) functions
+    Failed tests: ERROR 2 (of 7) [('3', 'is_perfect'), ('4a', 'identity_matrix')]
+  Tests to examine manually: OK 0
