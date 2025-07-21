@@ -13,31 +13,31 @@ def find_median(lst, m):
     Returns:
         int: The median of the list.
     """
-    n = len(lst)
+    n = len(lst)  # O(1) time complexity for getting length of list
 
-    # Create a frequency array (or boolean array) to mark the presence of numbers
-    # The size of this array should be m+1 to accommodate numbers from 0 to m.
-    # Initialize all counts to 0 or all presence to False.
-    counts = [0] * (m + 1)  # [cite: 2, 3, 7]
+    # Time Complexity: O(m)
+    # Space Complexity: O(m)
+    # This creates a list of size m+1, initialized with zeros.
+    # The space required grows linearly with m.
+    counts = [0] * (m + 1)
 
-    # Populate the frequency array.
-    # This step is linear with respect to n (number of elements in lst)
-    # and also with respect to m (if m is much larger than n, but effectively it's min(n, m) operations).
-    # Since numbers are distinct and within 0-m, this is efficient.
-    for num in lst:  #
-        counts[num] = 1  # Mark presence of the number
+    # Time Complexity: O(n)
+    # This loop iterates 'n' times, where 'n' is the number of elements in 'lst'.
+    # Each operation inside the loop (accessing list element and assignment) is O(1).
+    for num in lst:
+        counts[num] = 1
 
-    # Find the median by iterating through the counts array.
-    # The median is the (n/2 + 1)-th smallest element.
-    # Since n is odd, n/2 will be integer division, so we need to add 1 to get the correct index.
-    # For example, if n=7, n/2 = 3. We need 3 elements smaller, so the 4th element is the median.
-
+    # Time Complexity: O(m)
+    # This loop iterates 'm+1' times in the worst case (from 0 to m).
+    # In each iteration, operations are O(1).
+    # Although it iterates up to 'm', it stops once the median is found.
+    # In the worst case, the median is 'm' or close to it.
     smaller_count = 0
-    median_position = n // 2  # The number of elements smaller than the median
+    median_position = n // 2
 
     for i in range(m + 1):
         if counts[i] == 1:
-            if smaller_count == median_position:  #
+            if smaller_count == median_position:
                 return i
             smaller_count += 1
 
@@ -45,23 +45,6 @@ def find_median(lst, m):
 
 
 import unittest
-
-
-# Assuming the find_median function is defined as in the previous responses:
-# def find_median(lst, m):
-#     n = len(lst)
-#     counts = [0] * (m + 1)
-#     for num in lst:
-#         counts[num] = 1
-#     smaller_count = 0
-#     median_position = n // 2
-#     for i in range(m + 1):
-#         if counts[i] == 1:
-#             if smaller_count == median_position:
-#                 return i
-#             smaller_count += 1
-#     return -1 # Should not be reached given the problem constraints
-
 class TestFindMedian(unittest.TestCase):
 
     def test_example_from_problem_description(self):
@@ -129,7 +112,5 @@ class TestFindMedian(unittest.TestCase):
         lst = [10, 1, 99, 5, 50]
         m = 100
         self.assertEqual(find_median(lst, m), 10)
-
-
 if __name__ == '__main__':
     unittest.main(argv=['first-arg-is-ignored'], exit=False)
