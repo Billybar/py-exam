@@ -15,7 +15,7 @@ def find_median(lst, m):
         # if both elements above med
         if first_val > med and second_val > med:
             max_of_min_heap = med
-            med = max(min_of_max_heap,first_val,second_val)
+            med = min(min_of_max_heap,first_val,second_val)
             min_of_max_heap = get_max_med(first_val,second_val, min_of_max_heap, med)
             i +=2
 
