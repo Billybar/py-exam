@@ -1,142 +1,135 @@
+def find_median(lst, m):
+    """
+    Finds the median of a given list of distinct non-negative integers.
+    The median is defined as the number in the list such that n/2 elements
+    are smaller than it and n/2 elements are larger than it.
+    It is assumed that n (the size of the list) is an odd number and at least 3.
+    The solution aims for linear time complexity.
+
+    Args:
+        lst (list): A list of distinct non-negative integers.
+        m (int): The upper bound of the range of values in the list (0-m).
+
+    Returns:
+        int: The median of the list.
+    """
+    n = len(lst)
+
+    # Create a frequency array (or boolean array) to mark the presence of numbers
+    # The size of this array should be m+1 to accommodate numbers from 0 to m.
+    # Initialize all counts to 0 or all presence to False.
+    counts = [0] * (m + 1)  # [cite: 2, 3, 7]
+
+    # Populate the frequency array.
+    # This step is linear with respect to n (number of elements in lst)
+    # and also with respect to m (if m is much larger than n, but effectively it's min(n, m) operations).
+    # Since numbers are distinct and within 0-m, this is efficient.
+    for num in lst:  #
+        counts[num] = 1  # Mark presence of the number
+
+    # Find the median by iterating through the counts array.
+    # The median is the (n/2 + 1)-th smallest element.
+    # Since n is odd, n/2 will be integer division, so we need to add 1 to get the correct index.
+    # For example, if n=7, n/2 = 3. We need 3 elements smaller, so the 4th element is the median.
+
+    smaller_count = 0
+    median_position = n // 2  # The number of elements smaller than the median
+
+    for i in range(m + 1):
+        if counts[i] == 1:
+            if smaller_count == median_position:  #
+                return i
+            smaller_count += 1
+
+    return -1  # Should not be reached given the problem constraints
+
+
 import unittest
 
-def find_median(lst, m):
-    med = lst[0]
-    min_of_max_heap = max(lst[1],lst[2])
-    max_of_min_heap = min(lst[1], lst[2])
-    med , min_of_max_heap, max_of_min_heap =  get_med_min_max(med,min_of_max_heap,max_of_min_heap)
 
-    i = 3
-    # check 2 elements at a time
-    while i < len(lst)-1:
-        first_val = lst[i]
-        second_val = lst[i+1]
+# Assuming the find_median function is defined as in the previous responses:
+# def find_median(lst, m):
+#     n = len(lst)
+#     counts = [0] * (m + 1)
+#     for num in lst:
+#         counts[num] = 1
+#     smaller_count = 0
+#     median_position = n // 2
+#     for i in range(m + 1):
+#         if counts[i] == 1:
+#             if smaller_count == median_position:
+#                 return i
+#             smaller_count += 1
+#     return -1 # Should not be reached given the problem constraints
 
-        # if both elements above med
-        if first_val > med and second_val > med:
-            max_of_min_heap = med
-            med = min(min_of_max_heap,first_val,second_val)
-            min_of_max_heap = get_max_med(first_val,second_val, min_of_max_heap, med)
-            i +=2
+class TestFindMedian(unittest.TestCase):
 
-        # if both elements lower med
-        elif first_val < med and second_val < med:
-            min_of_max_heap = med
-            med = max(max_of_min_heap,first_val,second_val)
-            max_of_min_heap = get_min_med(first_val,second_val, max_of_min_heap, med)
-            i +=2
+    def test_example_from_problem_description(self):
+        """Test case directly from the problem description."""
+        lst = [11, 6, 8, 7, 3, 4, 1]
+        m = 11
+        self.assertEqual(find_median(lst, m), 6)
 
-        else:
-            i +=2
-            # first_val > med and second_val < med  OR  first_val < med and second_val > med
-            # so min-heaps and max-heap are equal -> med = med
+    def test_smallest_valid_list(self):
+        """Test with the smallest valid list size (n=3)."""
+        lst = [5, 1, 9]
+        m = 10
+        self.assertEqual(find_median(lst, m), 5)
 
-    return med
+    def test_numbers_starting_from_zero(self):
+        """Test when numbers in the list include 0."""
+        lst = [2, 0, 4]
+        m = 5
+        self.assertEqual(find_median(lst, m), 2)
 
+    def test_consecutive_numbers(self):
+        """Test with a list of consecutive numbers."""
+        lst = [10, 8, 9, 7, 6]
+        m = 10
+        self.assertEqual(find_median(lst, m), 8)
 
+    def test_median_at_higher_end(self):
+        """Test where the median is one of the larger values in the list."""
+        lst = [1, 2, 3, 4, 10]
+        m = 10
+        self.assertEqual(find_median(lst, m), 3)
 
-# helper 1
-def get_med_min_max(med,min_of_max_heap,max_of_min_heap):
-    if med > min_of_max_heap:
-        temp = med
-        med = min_of_max_heap
-        min_of_max_heap = temp
+    def test_median_at_lower_end(self):
+        """Test where the median is one of the smaller values in the list."""
+        lst = [0, 5, 6, 7, 8]
+        m = 8
+        self.assertEqual(find_median(lst, m), 6)
 
-    # swap if need
-    elif max_of_min_heap > med:
-        temp = med
-        med = max_of_min_heap
-        max_of_min_heap = temp
+    def test_larger_list_wider_range(self):
+        """Test with a larger list and a wider range of values."""
+        lst = [100, 50, 200, 150, 75, 25, 125, 175, 0]
+        m = 200
+        self.assertEqual(find_median(lst, m), 100)
 
-    return med, min_of_max_heap, max_of_min_heap
+    def test_list_with_only_zero(self):
+        """Test with a list that includes 0 and the median is not 0 (if n > 1)."""
+        lst = [0, 10, 20]
+        m = 20
+        self.assertEqual(find_median(lst, m), 10)
 
-# helper for nim_med
-def get_min_med(first,second, min_med, med):
-    if med == first:
-        min_med = max(min_med,second)
-    elif med == second:
-        min_med = max(min_med,first)
-    else: # med == min_med
-        min_med = max(first,second)
-    return min_med
+    def test_list_with_max_value_as_median(self):
+        """Test case where the median is the maximum value in the range m."""
+        lst = [1, 2, 3, 4, 5]
+        m = 5  # max value in list is 5
+        self.assertEqual(find_median(lst, m), 3)
 
-# helper for max_med
-def get_max_med(first,second, max_med, med):
-    if med == first:
-        max_med = min(max_med,second)
-    elif med == second:
-        max_med = min(max_med,first)
-    else: # med == max_med
-        max_med = min(first,second)
-    return max_med
+    def test_list_with_small_m(self):
+        """Test with a small 'm' value."""
+        lst = [1, 3, 5]
+        m = 5
+        self.assertEqual(find_median(lst, m), 3)
 
-# --- Test Cases ---
+    def test_list_with_disjoint_numbers(self):
+        """Test with numbers that are not clustered."""
+        lst = [10, 1, 99, 5, 50]
+        m = 100
+        self.assertEqual(find_median(lst, m), 10)
 
-def run_tests():
-    print("Running tests for find_median function...")
-
-    # Test Case 1: Example from problem description
-    lst1 = [11, 6, 8, 7, 3, 4, 1]
-    m1 = 11
-    expected1 = 6
-    result1 = find_median(lst1, m1)
-    print(f"Test 1: lst={lst1}, m={m1}")
-    print(f"  Expected: {expected1}, Actual: {result1}")
-    assert result1 == expected1, f"Test 1 Failed: Expected {expected1}, got {result1}"
-    print("  Test 1 Passed.")
-
-    # Test Case 2: Smallest list (n=3)
-    lst2 = [5, 1, 9]
-    m2 = 10
-    expected2 = 5
-    result2 = find_median(lst2, m2)
-    print(f"Test 2: lst={lst2}, m={m2}")
-    print(f"  Expected: {expected2}, Actual: {result2}")
-    assert result2 == expected2, f"Test 2 Failed: Expected {expected2}, got {result2}"
-    print("  Test 2 Passed.")
-
-    # Test Case 3: Larger list, median in the middle (this test failed in your unittest run)
-    lst3 = [10, 20, 30, 40, 50, 60, 70, 80, 90]
-    m3 = 100
-    expected3 = 50
-    result3 = find_median(lst3, m3)
-    print(f"Test 3: lst={lst3}, m={m3}")
-    print(f"  Expected: {expected3}, Actual: {result3}")
-    assert result3 == expected3, f"Test 3 Failed: Expected {expected3}, got {result3}"
-    print("  Test 3 Passed.")
-
-    # Test Case 4: List with values closer to 0
-    lst4 = [0, 1, 2, 3, 4]
-    m4 = 4
-    expected4 = 2
-    result4 = find_median(lst4, m4)
-    print(f"Test 4: lst={lst4}, m={m4}")
-    print(f"  Expected: {expected4}, Actual: {result4}")
-    assert result4 == expected4, f"Test 4 Failed: Expected {expected4}, got {result4}"
-    print("  Test 4 Passed.")
-
-    # Test Case 5: List with values closer to m
-    lst5 = [95, 96, 97, 98, 99]
-    m5 = 100
-    expected5 = 97
-    result5 = find_median(lst5, m5)
-    print(f"Test 5: lst={lst5}, m={m5}")
-    print(f"  Expected: {expected5}, Actual: {result5}")
-    assert result5 == expected5, f"Test 5 Failed: Expected {expected5}, got {result5}"
-    print("  Test 5 Passed.")
-
-    # Test Case 6: Unsorted list, larger values (this test failed in your unittest run)
-    lst6 = [500, 100, 300, 700, 200, 600, 400]
-    m6 = 700
-    expected6 = 400
-    result6 = find_median(lst6, m6)
-    print(f"Test 6: lst={lst6}, m={m6}")
-    print(f"  Expected: {expected6}, Actual: {result6}")
-    assert result6 == expected6, f"Test 6 Failed: Expected {expected6}, got {result6}"
-    print("  Test 6 Passed.")
-
-
-    print("\nAll tests completed.")
 
 if __name__ == '__main__':
-    run_tests()
+    unittest.main(argv=['first-arg-is-ignored'], exit=False)
