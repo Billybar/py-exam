@@ -1,33 +1,18 @@
-def common(lst1,lst2):
-    common_lst = []
-    i = j = 0
-    while i != len(lst1) and j != len(lst2):
-        a = lst1[i]
-        b = lst2[j]
+def common(lst1, lst2):
+    common_elements = []
+    i = 0
+    j = 0
 
-        if a < b:
-            i += 1
-        elif b < a:
-            j += 1
-        elif a == b:
-            common_lst.append(a)
+    while i < len(lst1) and j < len(lst2):
+        if lst1[i] == lst2[j]:
+            common_elements.append(lst1[i])
             i += 1
             j += 1
+        elif lst1[i] < lst2[j]:
+            i += 1
+        else:
+            j += 1
 
-    if not common_lst:
+    if not common_elements:
         return None
-    return common_lst
-
-
-def main():
-    lst1 = [-4, 0, 2, 3, 8, 9]
-    lst2 = [-4, -2, 1, 3, 5, 10, 12]
-    print(common(lst1, lst2))
-
-    lst1 = [-4, 0, 2, 3, 8, 9]
-    lst2 = [1, 4, 5, 10, 12]
-    print(common(lst1, lst2))
-
-
-if __name__ == "__main__":
-    main()
+    return common_elements

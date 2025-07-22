@@ -1,18 +1,4 @@
 def find_median(lst, m):
-    """
-    Finds the median of a given list of distinct non-negative integers.
-    The median is defined as the number in the list such that n/2 elements
-    are smaller than it and n/2 elements are larger than it.
-    It is assumed that n (the size of the list) is an odd number and at least 3.
-    The solution aims for linear time complexity.
-
-    Args:
-        lst (list): A list of distinct non-negative integers.
-        m (int): The upper bound of the range of values in the list (0-m).
-
-    Returns:
-        int: The median of the list.
-    """
     n = len(lst)  # O(1) time complexity for getting length of list
 
     # Time Complexity: O(m)
