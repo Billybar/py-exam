@@ -34,7 +34,9 @@ class Date:
     def __eq__(self,other):
         if not isinstance(other, Date):
             return NotImplemented
-        if other.get_day() == self.get_day() and other.get_month() == self.get_month() and other.get_year() == self.get_year():
+        if (other.get_day() == self.get_day() and
+                other.get_month() == self.get_month() and
+                other.get_year() == self.get_year()):
             return True
         else:
             return False
@@ -71,8 +73,6 @@ class Order:
             return True
         else:
             return False
-
-
 
     def __str__(self):
         return (f"Order ID: {self._order_id}, Date: {self._d.get_day()}/{self._d.get_month()}/{self._d.get_year()}, "

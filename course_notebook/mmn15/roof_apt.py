@@ -8,7 +8,6 @@ pricing for both roof location and pool features.
 """
 
 __author__ = "Bar-chaim Aminadav"
-__student_id__ = "305413247"
 
 from special_apt import SpecialApt
 
@@ -17,19 +16,6 @@ POOL_PRICE = 30000
 
 
 class RoofApt(SpecialApt):
-    """
-    Represents a roof apartment with optional pool feature.
-
-    This class extends SpecialApt with fixed view (always True) and adds
-    pool functionality. Roof apartments have premium pricing.
-
-    Attributes:
-        _floor (int): The floor number of the roof apartment
-        _area (int): The area in square meters
-        _has_view (bool): Always True for roof apartments
-        _has_pool (bool): Whether the apartment has a pool
-    """
-
     def __init__(self, floor,  area, has_pool):
         """
         Initialize a new RoofApt instance.

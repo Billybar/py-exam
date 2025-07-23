@@ -1,7 +1,4 @@
 # 3sum sorted style
-import unittest
-
-
 def count_triples(lst, target):
     triplets_counter = 0
 

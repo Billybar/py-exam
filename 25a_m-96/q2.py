@@ -12,7 +12,8 @@ def complement(lst):
 
     for val in lst:
         # Mark the number as present
-        present_numbers[val] = 1    # The provided solution uses +=1, but 1 is sufficient to mark presence.
+        # The provided solution uses +=1, but 1 is sufficient to mark presence.
+        present_numbers[val] = 1
 
     final_list = []
     for i in range(1, max_val + 1): # Iterate from 1 to max_val inclusive
@@ -21,4 +22,3 @@ def complement(lst):
 
     return final_list
 
-# להוסיף שרטוט של אלגו - נמצא ב exam.pdf
